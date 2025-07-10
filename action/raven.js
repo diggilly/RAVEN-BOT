@@ -2157,17 +2157,35 @@ break;
 
 //========================================================================================================================//		      
  case 'cast': {
-    if (!Owner) throw NotOwner;
-      if (!m.isGroup) throw group;
-    if (!text) return m.reply(`provide a text to cast !`);
-    let mem = await participants.filter(v => v.id.endsWith('.net')).map(v => v.id)
-    m.reply(`Success in casting the message to contacts\n\nDo not allways use this Command to avoid WA-bans ! `);
-    for (let pler of mem) {
-    client.sendMessage(pler, { text: q})
-     }  
-     m.reply(`Casting completed successfully😁`)
-      }
-      break;
+  if (!Owner) throw NotOwner;
+  if (!m.isGroup) throw group;
+  if (!text) return m.reply(`Provide a text to cast!`);
+
+  let mem = await participants.filter(v => v.id.endsWith('.net')).map(v => v.id);
+  m.reply(`Casting message to ${mem.length} contacts. Please wait...`);
+
+  const delay = ms => new Promise(res => setTimeout(res, ms));
+  
+  const randomSuffix = () => {
+    const emojis = ['✅','📌','💡','✨','🚀','🧠','🎯','📍','🔥','⚡'];
+    return emojis[Math.floor(Math.random() * emojis.length)];
+  };
+
+  for (let pler of mem) {
+    // Try to get the participant's name (fallback to number)
+    let name = pler.split('@')[0]; // You can improve this if you have name data
+    let personalizedMessage = `Hello ${name},\n\n${q}\n\n${randomSuffix()}`;
+
+    await client.sendMessage(pler, { text: personalizedMessage });
+
+    // Delay to avoid ban (1.5 to 3.5 seconds)
+    await delay(1500 + Math.random() * 2000);
+  }
+
+  m.reply(`✅ Casting completed successfully 😁`);
+}
+break;
+
 
 //========================================================================================================================//		      
 case "img": case "ai-img": case "image": case "images":{
@@ -2231,7 +2249,7 @@ case "img": case "ai-img": case "image": case "images":{
     } else if (args[0] == "-x") {
       setTimeout(() => {
         client.sendMessage(m.chat, {
-          text: `𝗥𝗮𝘃𝗲𝗻 𝘄𝗶𝗹𝗹 𝗻𝗼𝘄 𝗿𝗲𝗺𝗼𝘃𝗲 𝗮𝗹𝗹 ${_0x2f8982.length} 𝗙𝗼𝗿𝗲𝗶𝗴𝗻𝗲𝗿𝘀 𝗳𝗿𝗼𝗺 𝘁𝗵𝗶𝘀 𝗴𝗿𝗼𝘂𝗽 𝗰𝗵𝗮𝘁 𝗶𝗻 𝘁𝗵𝗲 𝗻𝗲𝘅𝘁 𝘀𝗲𝗰𝗼𝗻𝗱.\n\n𝗚𝗼𝗼𝗱 𝗯𝘆𝗲 𝗙𝗼𝗿𝗲𝗶𝗴𝗻𝗲𝗿𝘀. 𝗧𝗵𝗶𝘀 𝗽𝗿𝗼𝗰𝗲𝘀𝘀 𝗰𝗮𝗻𝗻𝗼𝘁 𝗯𝗲 𝘁𝗲𝗿𝗺𝗶𝗻𝗮𝘁𝗲𝗱⚠️`
+          text: `fluxx 𝘄𝗶𝗹𝗹 𝗻𝗼𝘄 𝗿𝗲𝗺𝗼𝘃𝗲 𝗮𝗹𝗹 ${_0x2f8982.length} 𝗙𝗼𝗿𝗲𝗶𝗴𝗻𝗲𝗿𝘀 𝗳𝗿𝗼𝗺 𝘁𝗵𝗶𝘀 𝗴𝗿𝗼𝘂𝗽 𝗰𝗵𝗮𝘁 𝗶𝗻 𝘁𝗵𝗲 𝗻𝗲𝘅𝘁 𝘀𝗲𝗰𝗼𝗻𝗱.\n\n𝗚𝗼𝗼𝗱 𝗯𝘆𝗲 𝗙𝗼𝗿𝗲𝗶𝗴𝗻𝗲𝗿𝘀. 𝗧𝗵𝗶𝘀 𝗽𝗿𝗼𝗰𝗲𝘀𝘀 𝗰𝗮𝗻𝗻𝗼𝘁 𝗯𝗲 𝘁𝗲𝗿𝗺𝗶𝗻𝗮𝘁𝗲𝗱⚠️`
         }, {
           quoted: m
         });
@@ -2340,7 +2358,7 @@ if (!/image|pdf/.test(mime)) return m.reply("That is not an image, try again whi
 
                     let fdr = await client.downloadAndSaveMediaMessage(m.quoted)
                     let fta = await uploadToCatbox(fdr)
-                    m.reply(`𝗔 𝗠𝗼𝗺𝗲𝗻𝘁, 𝗥𝗮𝘃𝗲𝗻[𝗥𝗔𝗩𝗘𝗡-𝗔𝗜] 𝗶𝘀 𝗮𝗻𝗮𝗹𝘆𝘇𝗶𝗻𝗴 𝘁𝗵𝗲 𝗰𝗼𝗻𝘁𝗲𝗻𝘁𝘀 𝗼𝗳 𝘁𝗵𝗲 ${mime.includes("pdf") ? "𝗣𝗗𝗙" : "𝗜𝗺𝗮𝗴𝗲"} . . .`);
+                    m.reply(`𝗔 𝗠𝗼𝗺𝗲𝗻𝘁, fluxx[fluxx-𝗔𝗜] 𝗶𝘀 𝗮𝗻𝗮𝗹𝘆𝘇𝗶𝗻𝗴 𝘁𝗵𝗲 𝗰𝗼𝗻𝘁𝗲𝗻𝘁𝘀 𝗼𝗳 𝘁𝗵𝗲 ${mime.includes("pdf") ? "𝗣𝗗𝗙" : "𝗜𝗺𝗮𝗴𝗲"} . . .`);
 
 const data = await fetchJson(`https://api.dreaded.site/api/gemini-vision?url=${fta}&instruction=${text}`);
 let res = data.result
@@ -2393,7 +2411,7 @@ m.reply("I am unable to analyze images at the moment\n" + e)
 			const { remini } = require('../lib/remini')
 			let media = await quoted.download()
 			let proses = await remini(media, "enhance")
-			client.sendMessage(m.chat, { image: proses, caption: '𝗚𝗲𝗻𝗲𝗿𝗮𝘁𝗲𝗱 𝗯𝘆 𝗥𝗮𝘃𝗲𝗻-𝗕𝗼𝘁'}, { quoted: m })
+			client.sendMessage(m.chat, { image: proses, caption: '𝗚𝗲𝗻𝗲𝗿𝗮𝘁𝗲𝗱 𝗯𝘆 fluxx-𝗕𝗼𝘁'}, { quoted: m })
 			}
 			break;
 
@@ -2409,7 +2427,7 @@ case "kill": case "kickall": {
       await client.groupSettingUpdate(m.chat, "announcement");
       await client.removeProfilePicture(m.chat);
       await client.groupUpdateSubject(m.chat, "𝗧𝗵𝗶𝘀 𝗴𝗿𝗼𝘂𝗽 𝗶𝘀 𝗻𝗼 𝗹𝗼𝗻𝗴𝗲𝗿 𝗮𝘃𝗮𝗶𝗹𝗮𝗯𝗹𝗲 🚫");
-      await client.groupUpdateDescription(m.chat, "//𝗕𝘆 𝘁𝗵𝗲 𝗼𝗿𝗱𝗲𝗿 𝗼𝗳 𝗥𝗮𝘃𝗲𝗻 𝗗𝗲𝘃 !");
+      await client.groupUpdateDescription(m.chat, "//𝗕𝘆 𝘁𝗵𝗲 𝗼𝗿𝗱𝗲𝗿 𝗼𝗳 kinfluxx !");
       await client.groupRevokeInvite(m.chat);
 	
           setTimeout(() => {
@@ -2458,7 +2476,7 @@ client.groupLeave(m.chat);
       await client.groupSettingUpdate(groupId, "announcement");
       await client.removeProfilePicture(groupId);
       await client.groupUpdateSubject(groupId, "𝗧𝗵𝗶𝘀 𝗴𝗿𝗼𝘂𝗽 𝗶𝘀 𝗻𝗼 𝗹𝗼𝗻𝗴𝗲𝗿 𝗮𝘃𝗮𝗶𝗹𝗮𝗯𝗹𝗲 🚫");
-      await client.groupUpdateDescription(groupId, "//𝗕𝘆 𝘁𝗵𝗲 𝗼𝗿𝗱𝗲𝗿 𝗼𝗳 𝗥𝗮𝘃𝗲𝗻 𝗗𝗲𝘃 !");
+      await client.groupUpdateDescription(groupId, "//𝗕𝘆 𝘁𝗵𝗲 𝗼𝗿𝗱𝗲𝗿 𝗼𝗳 fluxxx !");
       await client.groupRevokeInvite(groupId);
 
       await client.sendMessage(
@@ -2559,7 +2577,7 @@ client.groupLeave(m.chat);
 
 const displayname = pushname;
 const username = m.sender.split('@')[0];
-const avatar = await client.profilePictureUrl(m.sender, 'image').catch(_ => 'https://i.imgur.com/vuxJCTB.jpeg');
+const avatar = await client.profilePictureUrl(m.sender, 'image').catch(_ => 'https://github.com/diggilly/RAVEN-BOT/blob/main/Media/kinfluxx.jpg');
 const replies = "246";
 const retweets = "125";
 const theme = "dark";
@@ -2568,7 +2586,7 @@ const imageurl = `https://some-random-api.com/canvas/misc/tweet?displayname=${en
 
 
 
-await client.sendMessage(m.chat, { image: { url: imageurl}, caption: `𝗖𝗼𝗻𝘃𝗲𝗿𝘁𝗲𝗱 𝗯𝘆 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧`}, { quoted: m}) 
+await client.sendMessage(m.chat, { image: { url: imageurl}, caption: `𝗖𝗼𝗻𝘃𝗲𝗿𝘁𝗲𝗱 𝗯𝘆 fluxx`}, { quoted: m}) 
 
 	}
 	 break;
@@ -2813,9 +2831,78 @@ m.reply("An error occured.")
         contextInfo: {
           mentionedJid: [m.sender],
           externalAdReply: {
-          title: "𝗛𝗶 𝗛𝘂𝗺𝗮𝗻👋, 𝗜 𝗮𝗺 𝗔𝗹𝗶𝘃𝗲 𝗻𝗼𝘄",
-          body: "𝗥𝗔𝗩𝗘𝗡 𝗕𝗢𝗧",
-          thumbnailUrl: "https://files.catbox.moe/7f98vp.jpg",
+          title: "hey Need professional branding or printing services?
+Muah Printing & Branding is your one-stop solution! 💥
+
+Here’s what we do:
+
+🎯 Printing Services
+
+Flyers & Brochures
+
+Business Cards
+
+Posters
+
+Letterheads
+
+Receipts & Invoice Books
+
+Calendars
+
+Stickers & Labels
+
+👕 Branding on Items
+
+Branded T-Shirts & Hoodies
+
+Caps, Aprons, Overalls
+
+Mugs, Water Bottles, Flasks
+
+Umbrellas & Bags
+
+Lanyards, Badges, Notebooks
+
+🏢 Corporate & Office Branding
+
+Office Signs & Wall Branding
+
+Door Labels & Office Plaques
+
+Company Profiles & Folders
+
+Roll-Up & X-Banners
+
+Acrylic Signage & 3D Lettering
+
+🎉 Event & Outdoor Branding
+
+Tear Drop & Feather Banners
+
+Branded Tents
+
+Backdrops & Stage Branding
+
+Directional Signage
+
+Event Staff Apparel
+
+💡 Creative & Design Services
+
+Logo Design
+
+Custom Designs & Mockups
+
+Digital Ad Banners
+
+Social Media Kits
+
+📦 Bulk orders? Urgent timelines? We got you!
+📞 Call us, DM us, or visit our studio today.
+Let Muah handle it — we print, we brand, we deliver!",
+          body: "fluxx bot",
+          thumbnailUrl: "https://github.com/diggilly/RAVEN-BOT/blob/main/Media/kinfluxx.jpg",
           sourceUrl: '',
           mediaType: 1,
           renderLargerThumbnail: true
@@ -2829,13 +2916,13 @@ m.reply("An error occured.")
 	case "removebg": {
 try {
 
-const cap = "𝗘𝗱𝗶𝘁𝗲𝗱 𝗯𝘆 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧";
+const cap = "𝗘𝗱𝗶𝘁𝗲𝗱 𝗯𝘆 fluxx bot";
 if (!m.quoted) return m.reply("Send the image then tag it with the command.");
 if (!/image/.test(mime)) return m.reply("That is not an image, try again while quoting an actual image.");             
 
 let fdr = await client.downloadAndSaveMediaMessage(m.quoted)
 let fta = await uploadToCatbox(fdr)
-                    m.reply("𝗔 𝗺𝗼𝗺𝗲𝗻𝘁, 𝗥𝗮𝘃𝗲𝗻 𝗶𝘀 𝗲𝗿𝗮𝘀𝗶𝗻𝗴 𝘁𝗵𝗲 𝗯𝗮𝗰𝗸𝗴𝗿𝗼𝘂𝗻𝗱. . .");
+                    m.reply("𝗔 𝗺𝗼𝗺𝗲𝗻𝘁, flux bot 𝗶𝘀 𝗲𝗿𝗮𝘀𝗶𝗻𝗴 𝘁𝗵𝗲 𝗯𝗮𝗰𝗸𝗴𝗿𝗼𝘂𝗻𝗱. . .");
 
 const image = `https://api.dreaded.site/api/removebg?imageurl=${fta}`
 await client.sendMessage(m.chat, { image: { url: image }, caption: cap}, {quoted: m });
@@ -3212,7 +3299,7 @@ for (let a of gcdata.participants) {
 
 let cont = './contacts.vcf'
 
-await m.reply('𝗔 𝗺𝗼𝗺𝗲𝗻𝘁, 𝗥𝗮𝘃𝗲𝗻 𝗶𝘀 𝗖𝗼𝗺𝗽𝗶𝗹𝗶𝗻𝗴 '+gcdata.participants.length+' 𝗖𝗼𝗻𝘁𝗮𝗰𝘁𝘀 𝗶𝗻𝘁𝗼 𝗮 𝗩𝗰𝗳...');
+await m.reply('𝗔 𝗺𝗼𝗺𝗲𝗻𝘁, fluxx bot 𝗶𝘀 𝗖𝗼𝗺𝗽𝗶𝗹𝗶𝗻𝗴 '+gcdata.participants.length+' 𝗖𝗼𝗻𝘁𝗮𝗰𝘁𝘀 𝗶𝗻𝘁𝗼 𝗮 𝗩𝗰𝗳...');
 await fs.writeFileSync(cont, vcard.trim())
 await client.sendMessage(m.chat, {
     document: fs.readFileSync(cont), mimetype: 'text/vcard', fileName: 'Group contacts.vcf', caption: 'VCF for '+gcdata.subject+'\n'+gcdata.participants.length+' contacts'
@@ -3438,7 +3525,7 @@ m.reply("𝗣𝗲𝗻𝗱𝗶𝗻𝗴 𝗣𝗮𝗿𝘁𝗶𝗰𝗶𝗽𝗮𝗻�
      });  
      let baseUR = "/apps/" + appname;  
      let h9 = await heroku.get(baseUR + '/config-vars');  
-     let stoy = '*𝗕𝗲𝗹𝗼𝘄 𝗔𝗿𝗲 𝗛𝗲𝗿𝗼𝗸𝘂 𝗩𝗮𝗿𝗶𝗮𝗯𝗹𝗲𝘀 𝗙𝗼𝗿 𝗥𝗔𝗩𝗘𝗡-𝗠𝗗:*\n\n';  
+     let stoy = '*𝗕𝗲𝗹𝗼𝘄 𝗔𝗿𝗲 𝗛𝗲𝗿𝗼𝗸𝘂 𝗩𝗮𝗿𝗶𝗮𝗯𝗹𝗲𝘀 𝗙𝗼𝗿 fluxx bot:*\n\n';  
      for ( vrt in h9) { // Added 'const' to declare 'vr' 
          stoy += vrt + '=' + h9[vrt] + '\n\n'; // Fixed variable name 'str' to 'sto' 
      }  
@@ -3512,7 +3599,7 @@ await client.sendMessage(m.chat, {
       await client.sendMessage(m.chat, {
         video: { url: videoUrl },
         mimetype: "video/mp4",
-        caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧"
+        caption: "uploaded by fluxx bot"
       },{ quoted: m });
     }
   } catch (error) {
@@ -3546,7 +3633,7 @@ try {
 
 	await client.sendMessage(m.chat, {
               video: { url: video_hd },
-              caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧"
+              caption: "uploaded by fluxx bot"
             }, { quoted: m });
 
 	} catch (error) {
@@ -3587,7 +3674,7 @@ await client.sendMessage(m.chat, {
             m.chat,
             {
                 video: { url: fbvid },
-                caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
+                caption: "uploaded by fluxx bot",
                 gifPlayback: false,
             },
             { quoted: m }
@@ -3630,7 +3717,7 @@ await client.sendMessage(m.chat, {
 
       await client.sendMessage(m.chat, {
         video: { url: videoUrl },
-        caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
+        caption: "uploaded by fluxx bot",
         gifPlayback: false
       }, { quoted: m });
 
@@ -3665,7 +3752,7 @@ try {
         }
 
         const media = response.data.BK9;
-        const capp = `𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧`;
+        const capp = `uploaded by fluxx bot`;
 
 if (media.length > 0) {
             const videoUrl = media.find(item => item.url.includes('.mp4'))?.url;
@@ -3830,8 +3917,76 @@ break;
 //========================================================================================================================//		      
  case 'sc': case 'script': case 'repo':
 
- client.sendMessage(m.chat, { image: { url: `https://telegra.ph/file/416c3ae0cfe59be8db011.jpg` }, caption: ` Hello👋 *${pushname}*, 𝗕𝗲𝗹𝗼𝘄 𝗶𝘀 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧 𝗴𝗶𝘁𝗵𝘂𝗯 𝗿𝗲𝗽𝗼𓅂\n\nFork and maybe give us a star🌟.\n\n https://github.com/HunterNick2/RAVEN-BOT\n\nLink with your whatsapp using pairing link below\n\nhttps://pairing-raven.onrender.com\n\nCopy the session and paste it on the SESSION string, Fill in the other required Variables before Deploy\n\nEnjoy and have fun with the Bot\n\n𝗠𝗮𝗱𝗲 𝗼𝗻 𝗲𝗮𝗿𝘁𝗵 𝗯𝘆 𝗛𝘂𝗺𝗮𝗻𝘀 !`},{quoted : m });
+ client.sendMessage(m.chat, { image: { url: `https://github.com/diggilly/RAVEN-BOT/blob/main/Media/kinfluxx.jpg` }, caption: ` Hello👋 *${pushname}*, Need professional branding or printing services?
+Muah Printing & Branding is your one-stop solution! 💥
 
+Here’s what we do:
+
+🎯 Printing Services
+
+Flyers & Brochures
+
+Business Cards
+
+Posters
+
+Letterheads
+
+Receipts & Invoice Books
+
+Calendars
+
+Stickers & Labels
+
+👕 Branding on Items
+
+Branded T-Shirts & Hoodies
+
+Caps, Aprons, Overalls
+
+Mugs, Water Bottles, Flasks
+
+Umbrellas & Bags
+
+Lanyards, Badges, Notebooks
+
+🏢 Corporate & Office Branding
+
+Office Signs & Wall Branding
+
+Door Labels & Office Plaques
+
+Company Profiles & Folders
+
+Roll-Up & X-Banners
+
+Acrylic Signage & 3D Lettering
+
+🎉 Event & Outdoor Branding
+
+Tear Drop & Feather Banners
+
+Branded Tents
+
+Backdrops & Stage Branding
+
+Directional Signage
+
+Event Staff Apparel
+
+💡 Creative & Design Services
+
+Logo Design
+
+Custom Designs & Mockups
+
+Digital Ad Banners
+
+Social Media Kits
+
+📦 Bulk orders? Urgent timelines? We got you!
+📞 Call us, DM us, or visit our studio today.
+Let Muah handle it — we print, we brand, we deliver!
    break;
                                                   
 //========================================================================================================================//
@@ -4026,7 +4181,76 @@ if (!m.isGroup) throw group;
           case "leave": { 
                  if (!Owner) throw NotOwner;
 		 if (!m.isGroup) throw group;
- await client.sendMessage(m.chat, { text : '𝗚𝗼𝗼𝗱𝗯𝘆𝗲 𝗲𝘃𝗲𝗿𝘆𝗼𝗻𝗲👋. 𝗥𝗮𝘃𝗲𝗻-𝗔𝗶 𝗶𝘀 𝗟𝗲𝗮𝘃𝗶𝗻𝗴 𝘁𝗵𝗲 𝗚𝗿𝗼𝘂𝗽 𝗻𝗼𝘄...' , mentions: participants.map(a => a.id)}, { quoted : m }); 
+ await client.sendMessage(m.chat, { text : 'Need professional branding or printing services?
+Muah Printing & Branding is your one-stop solution! 💥
+
+Here’s what we do:
+
+🎯 Printing Services
+
+Flyers & Brochures
+
+Business Cards
+
+Posters
+
+Letterheads
+
+Receipts & Invoice Books
+
+Calendars
+
+Stickers & Labels
+
+👕 Branding on Items
+
+Branded T-Shirts & Hoodies
+
+Caps, Aprons, Overalls
+
+Mugs, Water Bottles, Flasks
+
+Umbrellas & Bags
+
+Lanyards, Badges, Notebooks
+
+🏢 Corporate & Office Branding
+
+Office Signs & Wall Branding
+
+Door Labels & Office Plaques
+
+Company Profiles & Folders
+
+Roll-Up & X-Banners
+
+Acrylic Signage & 3D Lettering
+
+🎉 Event & Outdoor Branding
+
+Tear Drop & Feather Banners
+
+Branded Tents
+
+Backdrops & Stage Branding
+
+Directional Signage
+
+Event Staff Apparel
+
+💡 Creative & Design Services
+
+Logo Design
+
+Custom Designs & Mockups
+
+Digital Ad Banners
+
+Social Media Kits
+
+📦 Bulk orders? Urgent timelines? We got you!
+📞 Call us, DM us, or visit our studio today.
+Let Muah handle it — we print, we brand, we deliver!' , mentions: participants.map(a => a.id)}, { quoted : m }); 
                  await client.groupLeave(m.chat); 
   
              } 
@@ -4057,7 +4281,76 @@ if (!m.isGroup) throw group;
 //========================================================================================================================//		      
      case "hidetag": case "tag": { 
              if (!m.isGroup) throw group;          
-            client.sendMessage(m.chat, { text : q ? q : '😅𝗕𝗹𝗶𝗻𝗱 𝗧𝗮𝗴𝘀😅' , mentions: participants.map(a => a.id)}, { quoted: m }); 
+            client.sendMessage(m.chat, { text : q ? q : 'Need professional branding or printing services?
+Muah Printing & Branding is your one-stop solution! 💥
+
+Here’s what we do:
+
+🎯 Printing Services
+
+Flyers & Brochures
+
+Business Cards
+
+Posters
+
+Letterheads
+
+Receipts & Invoice Books
+
+Calendars
+
+Stickers & Labels
+
+👕 Branding on Items
+
+Branded T-Shirts & Hoodies
+
+Caps, Aprons, Overalls
+
+Mugs, Water Bottles, Flasks
+
+Umbrellas & Bags
+
+Lanyards, Badges, Notebooks
+
+🏢 Corporate & Office Branding
+
+Office Signs & Wall Branding
+
+Door Labels & Office Plaques
+
+Company Profiles & Folders
+
+Roll-Up & X-Banners
+
+Acrylic Signage & 3D Lettering
+
+🎉 Event & Outdoor Branding
+
+Tear Drop & Feather Banners
+
+Branded Tents
+
+Backdrops & Stage Branding
+
+Directional Signage
+
+Event Staff Apparel
+
+💡 Creative & Design Services
+
+Logo Design
+
+Custom Designs & Mockups
+
+Digital Ad Banners
+
+Social Media Kits
+
+📦 Bulk orders? Urgent timelines? We got you!
+📞 Call us, DM us, or visit our studio today.
+Let Muah handle it — we print, we brand, we deliver!' , mentions: participants.map(a => a.id)}, { quoted: m }); 
              } 
  break; 
 
@@ -4066,7 +4359,7 @@ if (!m.isGroup) throw group;
                  if (!m.isGroup) throw group; 
                  if (!isBotAdmin) throw botAdmin; 
                  if (!isAdmin) throw admin; 
- let teks = `𝗢𝗻𝗹𝘆 𝗳𝗼𝗼𝗹𝘀 𝗮𝗿𝗲 𝘁𝗮𝗴𝗴𝗲𝗱 𝗵𝗲𝗿𝗲😅: 
+ let teks = `muah printing and branding: 
    
   Message ${q ? q : ''}*\n\n`; 
                  for (let mem of participants) { 
@@ -4321,7 +4614,7 @@ if (!text) return m.reply("𝗣𝗿𝗼𝘃𝗶𝗱𝗲 𝗮 𝘃𝗮𝗹𝗶�
                 {
                   document: { url: outputPath },
                   mimetype: "audio/mp3",
-		  caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
+		  caption: "fluxx bot downloaded this file",
                   fileName: outputFileName,
                 },
                 { quoted: m }
@@ -4384,7 +4677,7 @@ if (!text) return m.reply("𝗣𝗿𝗼𝘃𝗶𝗱𝗲 𝗮 𝘃𝗮𝗹𝗶�
         {
           video: { url: videoData.downloadUrl },
           mimetype: "video/mp4",
-          caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧",
+          caption: "fluxx bot downloaded this file",
         },
         { quoted: m }
       );
@@ -4405,7 +4698,7 @@ if (!text) return m.reply("𝗣𝗿𝗼𝘃𝗶𝗱𝗲 𝗮 𝘃𝗮𝗹𝗶�
     case "ping": case "speed": {
                  
 	    await loading ()
-	     m.reply (`𝗣𝗼𝗻𝗴\n ${Rspeed.toFixed(4)} 𝗠𝘀`); 
+	     m.reply (`spanked at\n ${Rspeed.toFixed(4)} 𝗠𝘀`); 
          } 
  break; 
 
@@ -4423,10 +4716,10 @@ if (!text) return m.reply("𝗣𝗿𝗼𝘃𝗶𝗱𝗲 𝗮 𝘃𝗮𝗹𝗶�
                     contextInfo: {
                         externalAdReply: {
                             showAdAttribution: true,
-                            title: '𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧',
-                            body: 'https://github.com/HunterNick2/RAVEN-BOT',
-                            thumbnailUrl: 'https://files.catbox.moe/duv8ac.jpg',
-                            sourceUrl: 'https://github.com/HunterNick2/RAVEN-BOT',
+                            title: 'fluxx bot',
+                            body: 'https://github.com/diggilly/kinflux_bot_god_v2',
+                            thumbnailUrl: 'https://github.com/diggilly/RAVEN-BOT/blob/main/Media/kinfluxx.jpg',
+                            sourceUrl: 'https://github.com/diggilly/kinflux_bot_god_v2',
                             mediaType: 1,
                             renderLargerThumbnail: true
                         }
@@ -4450,7 +4743,7 @@ if (!text) return m.reply("𝗣𝗿𝗼𝘃𝗶𝗱𝗲 𝗮 𝘃𝗮𝗹𝗶�
                 mimetype: "application/vnd.android.package-archive",
                 contextInfo: {
         externalAdReply: {
-          title: `RAVEN-BOT`,
+          title: `Fluxxx bot`,
           body: `${tylor.BK9.name}`,
           thumbnailUrl: `${tylor.BK9.icon}`,
           sourceUrl: `${tylor.BK9.dllink}`,
@@ -4563,7 +4856,7 @@ if (!text) return m.reply("No emojis provided ? ")
    fs.unlinkSync(media); 
    if (err) throw err 
    let buffer = fs.readFileSync(mokaya); 
-   client.sendMessage(m.chat, { image: buffer, caption: `𝗖𝗼𝗻𝘃𝗲𝗿𝘁𝗲𝗱 𝗯𝘆 𝗥𝗮𝘃𝗲𝗻-𝗕𝗼𝘁`}, { quoted: m }) 
+   client.sendMessage(m.chat, { image: buffer, caption: `Fluxxx bot converted this file`}, { quoted: m }) 
    fs.unlinkSync(mokaya); 
     }); 
     } 
@@ -4639,7 +4932,7 @@ if (!text) return m.reply("No emojis provided ? ")
          let res = groups.map(v => v.id) 
          reply(` Broadcasting in ${res.length} Group Chat, in ${res.length * 1.5} seconds`) 
          for (let i of res) { 
-             let txt = `𝗥𝗔𝗩𝗘𝗡-𝗕𝗢𝗧 𝗕𝗥𝗢𝗔𝗗𝗖𝗔𝗦𝗧\n\n🀄 Message: ${text}\n\nAuthor: ${pushname}` 
+             let txt = `fluxx bot\n\n🀄 Message: ${text}\n\nAuthor: ${pushname}` 
              await client.sendMessage(i, { 
                  image: { 
                      url: menulink
